@@ -16,15 +16,29 @@
             />
         </header>
         <main>
-            <img
-                class="pokemon-lineup-header"
-                src="/pictures/pokemon-lineup.png"
-                alt=""
-            />
-            <section id="line-up">
-                <div class="PokemonOne">1</div>
-                <div class="PokemonTwo">2</div>
-                <div class="PokemonThree">3</div>
+            <h1 class="line-up-header">Pokemon Line-Up</h1>
+            <section class="pokemon-line-up" id="pokemonLineUp">
+                <div class="pokemon-one" id="pokemonOne">+</div>
+                <div class="pokemon-two" id="pokemonTwo">+</div>
+                <div class="pokemon-three" id="pokemonThree">+</div>
+            </section>
+
+            <section class="pokemon-search">
+                <h2 class="pokemon-search-header">Search for a Pokemon</h2>
+                <form class="pokemon-search-form" id="pokemonSearchForm">
+                    <input
+                        class="pokemon-search-input"
+                        type="text"
+                        id="pokemonSearchInput"
+                        placeholder="Enter a Pokemon Name"
+                    />
+                    <button
+                        class="pokemon-search-button"
+                        id="pokemonSearchButton"
+                    >
+                        Search
+                    </button>
+                </form>
             </section>
         </main>
     </body>
