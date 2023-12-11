@@ -6,6 +6,7 @@
         <title>Pokémon</title>
         <link rel="stylesheet" href="style.css" />
         <script type="module" src="script.js"></script>
+        <script type="module" src="lineUp.js"></script>
     </head>
     <body>
         <header>
@@ -16,15 +17,21 @@
             />
         </header>
         <main>
-            <h1 class="line-up-header">Pokemon Line-Up</h1>
+            <h1 class="line-up-header">Pokémon Line-Up</h1>
             <section class="pokemon-line-up" id="pokemonLineUp">
-                <div class="pokemon-one" id="pokemonOne">+</div>
-                <div class="pokemon-two" id="pokemonTwo">+</div>
-                <div class="pokemon-three" id="pokemonThree">+</div>
+                <div class="pokemon-box-one" id="pokemonBoxOne">
+                    <button id="addPoke">+</button>
+                </div>
+                <div class="pokemon-box-two" id="pokemonBoxTwo">
+                    <button id="addPoke">+</button>
+                </div>
+                <div class="pokemon-box-three" id="pokemonBoxThree">
+                    <button id="addPoke">+</button>
+                </div>
             </section>
 
             <section class="pokemon-search">
-                <h2 class="pokemon-search-header">Search for a Pokemon</h2>
+                <h2 class="pokemon-search-header">Search for a Pokémon</h2>
                 <form class="pokemon-search-form" id="pokemonSearchForm">
                     <input
                         class="pokemon-search-input"
@@ -38,6 +45,7 @@
                     >
                         Search
                     </button>
+                    <ul class="suggestions"></ul>
                 </form>
             </section>
         </main>
