@@ -11,21 +11,31 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 	// En eventlistener som lyssnar efter input i sökfältet
     pokemonSearchInput.addEventListener('input', () => {
-        const inputValue = pokemonSearchInput.value.toLowerCase();
-        const suggestions = pokemonNames.filter(name => name.includes(inputValue));
-		suggestionsList.innerHTML = ''; 
-        suggestions.forEach(suggestion => {
-            const listItem = document.createElement('li');
-            listItem.textContent = suggestion;
-            suggestionsList.appendChild(listItem);
-        });
-		
-        // Display these suggestions to the user
-    });
-
-	pokemonSearchInput.addEventListener('blur', () => {
+		const inputValue = pokemonSearchInput.value.toLowerCase();
 		suggestionsList.innerHTML = '';
+		if (!inputValue) {
+			return;
+		}
+		const suggestions = pokemonNames.filter(name => name.includes(inputValue));
+		suggestions.forEach(suggestion => {
+			const listItem = document.createElement('li');
+			listItem.textContent = suggestion;
+			listItem.addEventListener('click', () => {
+				pokemonSearchInput.value = listItem.textContent;
+				suggestionsList.innerHTML = '';
+			});
+			suggestionsList.appendChild(listItem);
+		});
 	});
+
+const addPokeButtons = document.querySelectorAll('#addPoke');
+
+addPokeButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        pokemonSearchInput.focus();
+    });
+});
+
 
 	let currentBox = 0;
 const pokemonBoxes = [
@@ -33,7 +43,7 @@ const pokemonBoxes = [
     document.querySelector('.pokemon-box-two'),
     document.querySelector('.pokemon-box-three')
 ];
-
+	
     pokemonSearchButton.addEventListener('click', async (event) => {
 		event.preventDefault(); 
 		const pokemName = pokemonSearchInput.value.toLowerCase();
@@ -54,4 +64,4 @@ const pokemonBoxes = [
 			console.log(error);
 		}
 	});
-});
+}); 
