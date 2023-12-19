@@ -15,6 +15,7 @@
                 src="pictures/6300-Header_PokemonGeneral_2000x800.jpg"
                 alt="Pokemon Logo"
             />
+            <button id="toggleBtn">Edit Line-Up</button>
         </header>
         <main>
             <h1 class="line-up-header">Pokémon Line-Up</h1>
@@ -31,7 +32,7 @@
             </section>
 
             <section class="pokemon-search">
-                <h2 class="pokemon-search-header">Search for a Pokémon</h2>
+                <h2 id="pokemonSearchHeader">Search for a Pokémon</h2>
                 <form class="pokemon-search-form" id="pokemonSearchForm">
                     <input
                         class="pokemon-search-input"
@@ -44,11 +45,15 @@
                         class="pokemon-search-button"
                         id="pokemonSearchButton"
                     >
-                        Search
+                        Add
                     </button>
                     <ul class="suggestions"></ul>
                 </form>
             </section>
+
+            <h2 id="reservesHeader">Reserves</h2>
+
+            <div id="reserveContainer"></div>
         </main>
     </body>
 </html>
