@@ -1,122 +1,157 @@
-// Väntar på att hemsidan ska ladda innan js körs
-
 document.addEventListener('DOMContentLoaded', async () => {
     const pokemonSearchButton = document.querySelector('.pokemon-search-button');
     const pokemonSearchInput = document.querySelector('.pokemon-search-input');
-	const suggestionsList = document.querySelector('.suggestions'); 
+    const suggestionsList = document.querySelector('.suggestions');
+    const toggleBtn = document.getElementById('toggleBtn');
+    const reserveContainer = document.getElementById('reserveContainer');
+    const messageContainer = document.getElementById('messageContainer');
 
-	const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=1200'); 
-    const data = await response.json(); 
+    const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=1200');
+    const data = await response.json();
     const pokemonNames = data.results.map(pokemon => pokemon.name);
-	
 
-	toggleBtn.addEventListener('click', () => {
-		const pokemonSearchHeader = document.getElementById('pokemonSearchHeader');
-		const pokemonSearchInput = document.getElementById('pokemonSearchInput');
-		const suggestionsList = document.getElementsByClassName('suggestions') [0];
-		const reserveContainer = document.getElementById('reserveContainer');
-		const reserveHeader = document.getElementById('reservesHeader');
-	
-		if (pokemonSearchHeader.style.display !== 'none') {
-			pokemonSearchHeader.style.display = 'none';
-			pokemonSearchInput.style.display = 'none';
-			pokemonSearchButton.style.display = 'none';
-			suggestionsList.style.display = 'none';
-			reserveContainer.style.display = 'flex';
-			reserveHeader.style.display = 'flex';
+    const lineupOneBoxes = [
+        document.querySelector('.pokemon-box-one')
+    ];
 
-		} else {
-			pokemonSearchHeader.style.display = 'flex';
-			pokemonSearchInput.style.display = 'flex';
-			pokemonSearchButton.style.display = 'flex';
-			suggestionsList.style.display = 'flex';
-			reserveContainer.style.display = 'none';
-			reserveHeader.style.display = 'none';
-		}
-	});
+    const lineupTwoBoxes = [
+        document.querySelector('.pokemon-box-two')
+    ];
 
-	// En eventlistener som lyssnar efter input i sökfältet
-    pokemonSearchInput.addEventListener('input', () => {
-		const inputValue = pokemonSearchInput.value.toLowerCase();
-		suggestionsList.innerHTML = '';
-		if (!inputValue) {
-			return;
-		}
+    const lineupThreeBoxes = [
+        document.querySelector('.pokemon-box-three')
+    ];
 
-		// En forEach som skapar en lista med pokemons som matchar det som skrivs in i sökfältet
-		const suggestions = pokemonNames.filter(name => name.includes(inputValue));
-		suggestions.forEach(suggestion => {
-			const listItem = document.createElement('li');
-			listItem.textContent = suggestion;
-			listItem.addEventListener('click', () => {
-				pokemonSearchInput.value = listItem.textContent;
-				suggestionsList.innerHTML = '';
-			});
-			suggestionsList.appendChild(listItem);
-		});
-	});
+    let currentLineupOneBox = 0;
+    let currentLineupTwoBox = 0;
+    let currentLineupThreeBox = 0;
 
-const addPokeButtons = document.querySelectorAll('#addPoke');
+    toggleBtn.addEventListener('click', () => {
+        const pokemonSearchHeader = document.getElementById('pokemonSearchHeader');
+        const suggestionsList = document.getElementsByClassName('suggestions')[0];
+        const reserveHeader = document.getElementById('reservesHeader');
 
-addPokeButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        pokemonSearchInput.focus();
+        if (pokemonSearchHeader.style.display !== 'none') {
+            pokemonSearchHeader.style.display = 'none';
+            pokemonSearchInput.style.display = 'none';
+            pokemonSearchButton.style.display = 'none';
+            suggestionsList.style.display = 'none';
+            reserveContainer.style.display = 'flex';
+            reserveHeader.style.display = 'flex';
+        } else {
+            pokemonSearchHeader.style.display = 'flex';
+            pokemonSearchInput.style.display = 'flex';
+            pokemonSearchButton.style.display = 'flex';
+            suggestionsList.style.display = 'flex';
+            reserveContainer.style.display = 'none';
+            reserveHeader.style.display = 'none';
+        }
     });
-});
 
-	let currentBox = 0;
-const pokemonBoxes = [
-    document.querySelector('.pokemon-box-one'),
-    document.querySelector('.pokemon-box-two'),
-    document.querySelector('.pokemon-box-three')
-];
-	
-	// En eventlistener som lyssnar efter klick på sökknappen som också lägger till pokemonen i en låda
-    pokemonSearchButton.addEventListener('click', async (event) => {
-		event.preventDefault(); 
-		const pokemName = pokemonSearchInput.value.toLowerCase();
-		const url = `https://pokeapi.co/api/v2/pokemon/${pokemName}`;
-		try {
-			const response = await fetch(url);
-			const data = await response.json();
-			const pokemonName = document.createElement('h3');
-			pokemonName.textContent = data.name;
-			
-			// hämtar sprite från api och lägger in i en img
-			const pokemonImage = document.createElement('img');
-			pokemonImage.src = data.sprites.front_default;
+    pokemonSearchInput.addEventListener('input', () => {
+        const inputValue = pokemonSearchInput.value.toLowerCase();
+        suggestionsList.innerHTML = '';
+        if (!inputValue) {
+            return;
+        }
 
-			const nicknameInput = document.createElement('input');
-        nicknameInput.type = 'text';
-        nicknameInput.placeholder = 'Nickname';
-		nicknameInput.autocomplete = 'off';
-
-		const kickButton = document.createElement('button');
-        kickButton.textContent = 'Kick';
-        kickButton.addEventListener('click', () => {
-            kickButton.parentNode.innerHTML = '';
+        const suggestions = pokemonNames.filter(name => name.includes(inputValue));
+        suggestions.forEach(suggestion => {
+            const listItem = document.createElement('li');
+            listItem.textContent = suggestion;
+            listItem.addEventListener('click', () => {
+                pokemonSearchInput.value = listItem.textContent;
+                suggestionsList.innerHTML = '';
+            });
+            suggestionsList.appendChild(listItem);
         });
+    });
 
-			// kollar att lådorna är lediga, om inte så skrivs det ut i konsolen
-			const reserveContainer = document.getElementById('reserveContainer');
+    const addPokeButtons = document.querySelectorAll('#addPoke');
+    addPokeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            pokemonSearchInput.focus();
+        });
+    });
 
-			const box = pokemonBoxes.find(box => box.innerHTML === '');
-			if (currentBox < pokemonBoxes.length) {
-				pokemonBoxes[currentBox].innerHTML = '';
-				pokemonBoxes[currentBox].appendChild(pokemonImage);
-				pokemonBoxes[currentBox].appendChild(pokemonName);
-				pokemonBoxes[currentBox].appendChild(nicknameInput);
-				pokemonBoxes[currentBox].appendChild(kickButton);
-				currentBox++;
-			} else {
-				const reserveBox = document.createElement('div');
-    			reserveBox.className = 'reserve-box';
-    			reserveBox.appendChild(pokemonImage);
-    			reserveBox.appendChild(pokemonName);
-    			reserveContainer.appendChild(reserveBox);
+	function showMessage(message, isFullTeam) {
+        const messageContainer = document.getElementById('messageContainer');
+        messageContainer.textContent = message;
+
+        if (isFullTeam) {
+            setTimeout(() => {
+                messageContainer.textContent = '';
+            }, 2000);
+        } else {
+            setTimeout(() => {
+                messageContainer.textContent = 'You have an open slot in your team.';
+            }, 2000);
+        }
+    }
+
+    pokemonSearchButton.addEventListener('click', async (event) => {
+        event.preventDefault();
+        const pokemName = pokemonSearchInput.value.toLowerCase();
+        const url = `https://pokeapi.co/api/v2/pokemon/${pokemName}`;
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            const pokemonName = document.createElement('h3');
+            pokemonName.textContent = data.name;
+
+            const pokemonImage = document.createElement('img');
+            pokemonImage.src = data.sprites.front_default;
+
+            const nicknameInput = document.createElement('input');
+            nicknameInput.type = 'text';
+            nicknameInput.placeholder = 'Nickname';
+            nicknameInput.autocomplete = 'off';
+
+            const kickButton = document.createElement('button');
+            kickButton.textContent = 'Kick';
+            kickButton.addEventListener('click', () => {
+                const box = kickButton.parentNode;
+                box.innerHTML = '';
+
+                if (lineupOneBoxes.includes(box)) {
+                    currentLineupOneBox = lineupOneBoxes.indexOf(box);
+                } else if (lineupTwoBoxes.includes(box)) {
+                    currentLineupTwoBox = lineupTwoBoxes.indexOf(box);
+                } else if (lineupThreeBoxes.includes(box)) {
+                    currentLineupThreeBox = lineupThreeBoxes.indexOf(box);
+                }
+            });
+
+            if (currentLineupOneBox < lineupOneBoxes.length) {
+                lineupOneBoxes[currentLineupOneBox].innerHTML = '';
+                lineupOneBoxes[currentLineupOneBox].appendChild(pokemonImage);
+                lineupOneBoxes[currentLineupOneBox].appendChild(pokemonName);
+                lineupOneBoxes[currentLineupOneBox].appendChild(nicknameInput);
+                lineupOneBoxes[currentLineupOneBox].appendChild(kickButton);
+                currentLineupOneBox++;
+            } else if (currentLineupTwoBox < lineupTwoBoxes.length) {
+                lineupTwoBoxes[currentLineupTwoBox].innerHTML = '';
+                lineupTwoBoxes[currentLineupTwoBox].appendChild(pokemonImage);
+                lineupTwoBoxes[currentLineupTwoBox].appendChild(pokemonName);
+                lineupTwoBoxes[currentLineupTwoBox].appendChild(nicknameInput);
+                lineupTwoBoxes[currentLineupTwoBox].appendChild(kickButton);
+                currentLineupTwoBox++;
+            } else if (currentLineupThreeBox < lineupThreeBoxes.length) {
+                lineupThreeBoxes[currentLineupThreeBox].innerHTML = '';
+                lineupThreeBoxes[currentLineupThreeBox].appendChild(pokemonImage);
+                lineupThreeBoxes[currentLineupThreeBox].appendChild(pokemonName);
+                lineupThreeBoxes[currentLineupThreeBox].appendChild(nicknameInput);
+                lineupThreeBoxes[currentLineupThreeBox].appendChild(kickButton);
+                currentLineupThreeBox++;
+            } else {
+                const reserveBox = document.createElement('div');
+                reserveBox.className = 'reserve-box';
+                reserveBox.appendChild(pokemonImage);
+                reserveBox.appendChild(pokemonName);
+                reserveContainer.appendChild(reserveBox);
 			}
 		} catch (error) {
-			
+			showMessage('Pokemon not found', false);
 		}
-	});
-}); 
+    });
+});
