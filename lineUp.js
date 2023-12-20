@@ -74,18 +74,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     });
 
-	function showMessage(message, isFullTeam) {
-        const messageContainer = document.getElementById('messageContainer');
+    function showMessage(message, isFullTeam) {
         messageContainer.textContent = message;
 
-        if (isFullTeam) {
+		const isLineupFull = currentLineupOneBox === lineupOneBoxes.length &&
+                            currentLineupTwoBox === lineupTwoBoxes.length &&
+                            currentLineupThreeBox === lineupThreeBoxes.length;
+
+        if (isFullTeam || isLineupFull) {
             setTimeout(() => {
                 messageContainer.textContent = '';
-            }, 2000);
+            }, 1800);
         } else {
             setTimeout(() => {
                 messageContainer.textContent = 'You have an open slot in your team.';
-            }, 2000);
+            }, 1800);
         }
     }
 
@@ -129,6 +132,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 lineupOneBoxes[currentLineupOneBox].appendChild(nicknameInput);
                 lineupOneBoxes[currentLineupOneBox].appendChild(kickButton);
                 currentLineupOneBox++;
+                showMessage('Pokemon added to Lineup', false);
             } else if (currentLineupTwoBox < lineupTwoBoxes.length) {
                 lineupTwoBoxes[currentLineupTwoBox].innerHTML = '';
                 lineupTwoBoxes[currentLineupTwoBox].appendChild(pokemonImage);
@@ -136,6 +140,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 lineupTwoBoxes[currentLineupTwoBox].appendChild(nicknameInput);
                 lineupTwoBoxes[currentLineupTwoBox].appendChild(kickButton);
                 currentLineupTwoBox++;
+                showMessage('Pokemon added to Lineup', false);
             } else if (currentLineupThreeBox < lineupThreeBoxes.length) {
                 lineupThreeBoxes[currentLineupThreeBox].innerHTML = '';
                 lineupThreeBoxes[currentLineupThreeBox].appendChild(pokemonImage);
@@ -143,15 +148,17 @@ document.addEventListener('DOMContentLoaded', async () => {
                 lineupThreeBoxes[currentLineupThreeBox].appendChild(nicknameInput);
                 lineupThreeBoxes[currentLineupThreeBox].appendChild(kickButton);
                 currentLineupThreeBox++;
+                showMessage('Pokemon added to Lineup', false);
             } else {
                 const reserveBox = document.createElement('div');
                 reserveBox.className = 'reserve-box';
                 reserveBox.appendChild(pokemonImage);
                 reserveBox.appendChild(pokemonName);
                 reserveContainer.appendChild(reserveBox);
-			}
-		} catch (error) {
-			showMessage('Pokemon not found', false);
-		}
+                showMessage('Pokemon added to Reserves', false);
+            }
+        } catch (error) {
+            showMessage('Pokemon not found', false);
+        }
     });
 });
