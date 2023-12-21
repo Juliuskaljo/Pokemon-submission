@@ -1,4 +1,7 @@
-document.addEventListener('DOMContentLoaded', async () => {
+
+// Här laddas DOM-innehållet innan js körs
+document.addEventListener('DOMContentLoaded', async () => { 
+	// Här hämtas alla element som vi behöver från html
     const pokemonSearchButton = document.querySelector('.pokemon-search-button');
     const pokemonSearchInput = document.querySelector('.pokemon-search-input');
     const suggestionsList = document.querySelector('.suggestions');
@@ -6,10 +9,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     const reserveContainer = document.getElementById('reserveContainer');
     const messageContainer = document.getElementById('messageContainer');
 
+	// Här hämtas alla pokemon-namn från pokeapi
     const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=1200');
     const data = await response.json();
     const pokemonNames = data.results.map(pokemon => pokemon.name);
 
+	// Här skapar jag variabler för varje box i lineupen
     const lineupOneBoxes = [
         document.querySelector('.pokemon-box-one')
     ];
@@ -22,15 +27,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.querySelector('.pokemon-box-three')
     ];
 
+	// Här skapar jag variabler för att kunna se vilken box som är näst på tur
     let currentLineupOneBox = 0;
     let currentLineupTwoBox = 0;
     let currentLineupThreeBox = 0;
 
+	// Här skapar jag en eventlistener för att kunna växla vy mellan lineup och reserves
     toggleBtn.addEventListener('click', () => {
         const pokemonSearchHeader = document.getElementById('pokemonSearchHeader');
         const suggestionsList = document.getElementsByClassName('suggestions')[0];
         const reserveHeader = document.getElementById('reservesHeader');
 
+		// Här kollar jag om lineup är synligt, om den är det så göms den och reserves visas
         if (pokemonSearchHeader.style.display !== 'none') {
             pokemonSearchHeader.style.display = 'none';
             pokemonSearchInput.style.display = 'none';
@@ -38,6 +46,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             suggestionsList.style.display = 'none';
             reserveContainer.style.display = 'flex';
             reserveHeader.style.display = 'flex';
+			toggleBtn.textContent = 'Search';
         } else {
             pokemonSearchHeader.style.display = 'flex';
             pokemonSearchInput.style.display = 'flex';
@@ -45,9 +54,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             suggestionsList.style.display = 'flex';
             reserveContainer.style.display = 'none';
             reserveHeader.style.display = 'none';
+			toggleBtn.textContent = 'Edit Line-Up';
         }
     });
 
+	// Här skapar jag en eventlistener för att kunna söka efter pokemon
     pokemonSearchInput.addEventListener('input', () => {
         const inputValue = pokemonSearchInput.value.toLowerCase();
         suggestionsList.innerHTML = '';
@@ -55,6 +66,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
 
+	// Här filtrerar jag pokemon-namnen så att de som inte matchar inputen inte visas
         const suggestions = pokemonNames.filter(name => name.includes(inputValue));
         suggestions.forEach(suggestion => {
             const listItem = document.createElement('li');
@@ -67,6 +79,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     });
 
+	// Här skapar jag en eventlistener för att kunna lägga till pokemon i lineup
     const addPokeButtons = document.querySelectorAll('#addPoke');
     addPokeButtons.forEach(button => {
         button.addEventListener('click', () => {
@@ -74,6 +87,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     });
 
+	// Här skapar jag en funktion för att visa meddelanden
     function showMessage(message, isFullTeam) {
         messageContainer.textContent = message;
 
@@ -92,10 +106,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
+	// Här skapar jag en eventlistener för att kunna söka och lägga till pokemons
     pokemonSearchButton.addEventListener('click', async (event) => {
         event.preventDefault();
         const pokemName = pokemonSearchInput.value.toLowerCase();
         const url = `https://pokeapi.co/api/v2/pokemon/${pokemName}`;
+
+		// Här hämtas pokemon-bilder från pokeapi
         try {
             const response = await fetch(url);
             const data = await response.json();
@@ -116,6 +133,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const box = kickButton.parentNode;
                 box.innerHTML = '';
 
+				// Här kollar jag vilken box som pokemonen ligger i och tar bort den från den boxen
                 if (lineupOneBoxes.includes(box)) {
                     currentLineupOneBox = lineupOneBoxes.indexOf(box);
                 } else if (lineupTwoBoxes.includes(box)) {
@@ -125,6 +143,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             });
 
+			// Här kollar jag vilken box som pokemonen ska läggas till i och lägger till den i den boxen
             if (currentLineupOneBox < lineupOneBoxes.length) {
                 lineupOneBoxes[currentLineupOneBox].innerHTML = '';
                 lineupOneBoxes[currentLineupOneBox].appendChild(pokemonImage);
@@ -155,7 +174,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 reserveBox.appendChild(pokemonImage);
                 reserveBox.appendChild(pokemonName);
                 reserveContainer.appendChild(reserveBox);
-                showMessage('Pokemon added to Reserves', false);
+				showMessage('Your team is full, added to reserves', false);
             }
         } catch (error) {
             showMessage('Pokemon not found', false);
