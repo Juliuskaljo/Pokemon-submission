@@ -70,6 +70,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const suggestions = pokemonNames.filter(name => name.includes(inputValue));
         suggestions.forEach(suggestion => {
             const listItem = document.createElement('li');
+			const img = document.createElement('img');
             listItem.textContent = suggestion;
             listItem.addEventListener('click', () => {
                 pokemonSearchInput.value = listItem.textContent;

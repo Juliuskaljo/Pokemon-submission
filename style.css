@@ -13,14 +13,14 @@ body, html {
 }
 
 
+
 #toggleBtn {
 	display: flex;
 	margin: auto;
 	margin-top: 1em;
 	border-radius: 0.6em;
 	border: 2px solid #FFDE00;
-	background-color: #FF0000;
-	color: #FFDE00;
+	background-color: rgb(240, 83, 83);
 	font-family: pokemon-font;
 	font-size: xx-small;
 	line-height: 14px;
@@ -79,7 +79,7 @@ body, html {
 	height: 13em;
 	padding: 0.5em;
 	margin-bottom: 1em;
-	background-color: #FF0000;
+	background-color: rgb(240, 83, 83);
 	color: #FFDE00;
 	border-radius: 1em;
 }
@@ -87,7 +87,7 @@ body, html {
 
 
 #addPoke {
-	background-color: #FF0000;
+	background-color: rgb(240, 83, 83);
 	width: 2em;
 	height: 2em;
 	border-radius: 1em;
@@ -97,8 +97,8 @@ body, html {
 
 #addPoke:hover {
 	background-color: #FFDE00;
-	color: #FF0000;
-	box-shadow: inset 0px 0px 10px 0px #FF0000;
+	color: rgb(240, 83, 83);
+	box-shadow: inset 0px 0px 10px 0px rgb(240, 83, 83);
 }
 
 #pokemonSearchInput {
@@ -106,7 +106,7 @@ body, html {
 	height: 4em;
 	border-radius: 0.6em;
 	border: none;
-	background-color: #FF0000;
+	background-color: rgb(240, 83, 83);
 	color: #FFDE00;
 	font-family: pokemon-font;
 }
@@ -128,7 +128,7 @@ body, html {
 	border-radius: 0.6em;
 	border: 2px solid #FFDE00;
 	
-	background-color: #FF0000;
+	background-color: rgb(240, 83, 83);
 	color: #FFDE00;
 	font-family: pokemon-font;
 }
@@ -165,7 +165,7 @@ body, html {
 
 .suggestions li {
     cursor: pointer;
-	background-color: #FF0000;
+	background-color: rgb(240, 83, 83);
 	color: #FFDE00;
 	padding-left: 2em;
 }
@@ -184,7 +184,7 @@ h3 {
 
 input {
 	width: 7em;
-	background-color: #FF0000;
+	background-color: rgb(240, 83, 83);
 	color: #FFDE00;
 	border: 1px solid #FFDE00;
 	border-radius: 1em;
@@ -202,7 +202,7 @@ input::placeholder {
 }
 
 button  {
-	background-color: #FF0000;
+	background-color: rgb(240, 83, 83);
 	color: #FFDE00;
 	border: 1px solid #FFDE00;
 	border-radius: 1em;
@@ -295,7 +295,7 @@ button  {
 
 	.suggestions li {
 		cursor: pointer;
-		background-color: #FF0000;
+		background-color: rgb(240, 83, 83);
 		color: #FFDE00;
 		padding-left: 2em;
 		width: 100%;
@@ -395,7 +395,7 @@ button  {
 
 	.suggestions li {
 		cursor: pointer;
-		background-color: #FF0000;
+		background-color: rgb(240, 83, 83);
 		color: #FFDE00;
 		padding-left: 2em;
 		width: 100%;
