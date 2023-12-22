@@ -12,6 +12,9 @@ body, html {
 	src: url('fonts/Pokemon\ Solid.ttf')  format('truetype');
 }
 
+::-webkit-scrollbar {
+    display: none;
+}
 
 
 #toggleBtn {
